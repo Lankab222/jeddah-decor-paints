@@ -1,0 +1,4 @@
+html, body { direction: ltr; }
+input, textarea, [contenteditable="true"] { direction: rtl; text-align: right; font-family: "Segoe UI", Tahoma, Arial, sans-serif; }
+label, p, h1, h2, h3, h4, h5, h6 { font-family: "Segoe UI", Tahoma, Arial, sans-serif; }
+[data-slate-editor="true"], [class*="PreviewPane"], [class*="preview"] { direction: rtl; text-align: right; }
