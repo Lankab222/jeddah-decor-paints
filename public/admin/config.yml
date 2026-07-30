@@ -4,7 +4,7 @@ backend:
   name: github
   repo: Lankab222/jeddah-decor-paints
   branch: main
-  base_url: https://jeddahdecore.site
+  base_url: https://jeddah-decap-oauth.m-lankab.workers.dev
   auth_endpoint: auth
 
 locale: ar
