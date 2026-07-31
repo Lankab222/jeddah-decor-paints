@@ -21,8 +21,9 @@
    - `GOOGLE_PRIVATE_KEY` كـ Secret
    - `PAGESPEED_API_KEY` كـ Secret اختياري
 4. في Cloudflare Pages أضف:
-   - `PUBLIC_SEO_API_URL=https://اسم-worker.workers.dev`
+   - `PUBLIC_SEO_API_URL=https://seo-api-worker.m-lankab.workers.dev`
 5. أعد نشر الموقع.
+   تمنكتكتنمت
 
 ## الحماية
 
