@@ -20,6 +20,9 @@ if (!settingsEntry) throw new Error("ملف إعدادات الموقع غير �
 const settings = settingsEntry.data;
 const baseUrl = Astro.site?.toString() ?? settings.siteUrl;
 const projectUrl = new URL(`/projects/${project.id}/`, baseUrl).toString();
+const canonicalUrl = project.data.canonical
+  ? new URL(project.data.canonical, baseUrl).toString()
+  : projectUrl;
 const allProjects = (await getCollection("projects", ({ data }) => !data.draft)).sort((a, b) => a.data.order - b.data.order);
 const currentIndex = allProjects.findIndex((item) => item.id === project.id);
 const previousProject = currentIndex > 0 ? allProjects[currentIndex - 1] : undefined;
@@ -28,7 +31,7 @@ const relatedProjects = allProjects.filter((item) => item.id !== project.id && (
 const pageTitle = project.data.seoTitle || project.data.title;
 const pageDescription = project.data.seoDescription || project.data.description;
 ---
-<BaseLayout title={pageTitle} description={pageDescription} image={project.data.coverImage || settings.defaultImage} imageAlt={project.data.coverImageAlt || project.data.title}>
+<BaseLayout title={pageTitle} description={pageDescription} canonical={canonicalUrl} noindex={project.data.noindex} image={project.data.ogImage || project.data.coverImage || settings.defaultImage} imageAlt={project.data.coverImageAlt || project.data.title}>
   <Fragment slot="head"><BreadcrumbSchema items={[{ name: "الرئيسية", url: new URL("/", baseUrl).toString() }, { name: "المشاريع", url: new URL("/projects/", baseUrl).toString() }, { name: project.data.title, url: projectUrl }]} /></Fragment>
   <main id="main-content"><Breadcrumbs items={[{ label: "الرئيسية", href: "/" }, { label: "المشاريع", href: "/projects/" }, { label: project.data.title }]} /><article><header class="project-hero"><div class="container"><span>{project.data.category}</span><h1>{project.data.title}</h1><p>{project.data.description}</p></div></header>{project.data.coverImage && <div class="container"><figure class="cover"><img src={project.data.coverImage} alt={project.data.coverImageAlt || project.data.title} width="1200" height="800" loading="eager" fetchpriority="high" decoding="async" /></figure></div>}<div class="container project-layout section"><div><div class="prose"><Content /></div>{project.data.gallery.length > 0 && <section class="gallery-section"><h2>صور من المشروع</h2><div class="gallery">{project.data.gallery.map((item) => <figure><a href={item.image} target="_blank" rel="noopener noreferrer"><img src={item.image} alt={item.alt} width="900" height="680" loading="lazy" decoding="async" /></a><figcaption>{item.alt}</figcaption></figure>)}</div></section>}<PostContactButtons phone={settings.phone} phoneDisplay={settings.phoneDisplay} whatsapp={settings.whatsapp} title="هل تريد تنفيذ مشروع مشابه؟" whatsappMessage={`مرحبًا، أريد الاستفسار عن مشروع مشابه لـ ${project.data.title}`} /><ProjectNavigation previous={previousProject ? { title: previousProject.data.title, href: `/projects/${previousProject.id}/` } : undefined} next={nextProject ? { title: nextProject.data.title, href: `/projects/${nextProject.id}/` } : undefined} /><RelatedProjects projects={relatedProjects} /></div><aside>{project.data.location && <p><strong>الموقع</strong><span>{project.data.location}</span></p>}{project.data.completionDate && <p><strong>تاريخ الإنجاز</strong><span>{project.data.completionDate.toLocaleDateString("ar-SA", { year: "numeric", month: "long" })}</span></p>}{project.data.services.length > 0 && <><h2>الخدمات المنفذة</h2><ul>{project.data.services.map((service) => <li>{service}</li>)}</ul></>}</aside></div></article></main>
 </BaseLayout>

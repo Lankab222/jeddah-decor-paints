@@ -22,6 +22,9 @@ if (!settingsEntry) throw new Error("ملف إعدادات الموقع غير �
 const settings = settingsEntry.data;
 const baseUrl = Astro.site?.toString() ?? settings.siteUrl;
 const articleUrl = new URL(`/blog/${post.id}/`, baseUrl).toString();
+const canonicalUrl = post.data.canonical
+  ? new URL(post.data.canonical, baseUrl).toString()
+  : articleUrl;
 const articleImage = new URL(post.data.image || settings.defaultImage, baseUrl).toString();
 const logoUrl = new URL(settings.logo || "/favicon.svg", baseUrl).toString();
 const relatedPosts = (await getCollection("blog", ({ data }) => !data.draft))
@@ -31,9 +34,9 @@ const relatedPosts = (await getCollection("blog", ({ data }) => !data.draft))
 const pageTitle = post.data.seoTitle || post.data.title;
 const pageDescription = post.data.seoDescription || post.data.description;
 ---
-<BaseLayout title={pageTitle} description={pageDescription} image={post.data.image || settings.defaultImage} imageAlt={post.data.imageAlt || post.data.title} type="article" publishedTime={post.data.publishDate} modifiedTime={post.data.updatedDate || post.data.publishDate} author={post.data.author} section={post.data.category}>
+<BaseLayout title={pageTitle} description={pageDescription} canonical={canonicalUrl} noindex={post.data.noindex} image={post.data.ogImage || post.data.image || settings.defaultImage} imageAlt={post.data.imageAlt || post.data.title} type="article" publishedTime={post.data.publishDate} modifiedTime={post.data.updatedDate || post.data.publishDate} author={post.data.author} section={post.data.category}>
   <Fragment slot="head">
-    <ArticleSchema title={post.data.title} description={pageDescription} url={articleUrl} image={articleImage} publishedTime={post.data.publishDate} modifiedTime={post.data.updatedDate || post.data.publishDate} author={post.data.author} siteName={settings.siteName} siteUrl={baseUrl} logo={logoUrl} />
+    <ArticleSchema title={post.data.title} description={pageDescription} url={canonicalUrl} image={articleImage} publishedTime={post.data.publishDate} modifiedTime={post.data.updatedDate || post.data.publishDate} author={post.data.author} siteName={settings.siteName} siteUrl={baseUrl} logo={logoUrl} />
     <BreadcrumbSchema items={[{ name: "الرئيسية", url: new URL("/", baseUrl).toString() }, { name: "المقالات", url: new URL("/blog/", baseUrl).toString() }, { name: post.data.title, url: articleUrl }]} />
     <FaqSchema items={post.data.faq} />
   </Fragment>

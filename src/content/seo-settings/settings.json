@@ -1,0 +1,28 @@
+{
+  "titleTemplate": "%s | ديكورات ودهانات جدة",
+  "defaultDescription": "ديكورات ودهانات جدة لتنفيذ الدهانات الداخلية والخارجية والديكورات والجبسات والعوازل والمظلات والسواتر والبرجولات في جدة.",
+  "defaultImage": "/uploads/og-default.jpg",
+  "searchConsoleProperty": "sc-domain:jeddahdecore.site",
+  "googleSiteVerification": "",
+  "bingSiteVerification": "",
+  "googleBusinessProfileUrl": "",
+  "noindexTagPages": false,
+  "noindexCategoryPages": false,
+  "robots": {
+    "allowAll": true,
+    "disallow": [
+      "/admin/",
+      "/seo-admin/",
+      "/seo-api/"
+    ]
+  },
+  "audit": {
+    "minimumTitleLength": 30,
+    "maximumTitleLength": 65,
+    "minimumDescriptionLength": 80,
+    "maximumDescriptionLength": 165,
+    "minimumContentCharacters": 700,
+    "reviewScore": 80,
+    "targetPerformanceScore": 90
+  }
+}

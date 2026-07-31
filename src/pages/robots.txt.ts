@@ -1,22 +1,25 @@
 import type { APIContext } from "astro";
+import { getEntry } from "astro:content";
 
 export const prerender = true;
 
-export function GET(context: APIContext) {
+export async function GET(context: APIContext) {
+  const seoEntry = await getEntry("seoSettings", "settings");
   const site = (context.site ?? new URL("https://jeddahdecore.site")).toString().replace(/\/+$/, "");
-  const body = [
+  const disallow = seoEntry?.data.robots.disallow ?? ["/admin/", "/seo-admin/", "/seo-api/"];
+  const lines = [
     "User-agent: *",
-    "Allow: /",
-    "Disallow: /admin/",
-    "Disallow: /seo-admin/",
+    seoEntry?.data.robots.allowAll === false ? "Disallow: /" : "Allow: /",
+    ...disallow.map((path) => `Disallow: ${path}`),
     "",
     `Sitemap: ${site}/sitemap-index.xml`,
     "",
-  ].join("\n");
+  ];
 
-  return new Response(body, {
+  return new Response(lines.join("\n"), {
     headers: {
       "Content-Type": "text/plain; charset=utf-8",
+      "Cache-Control": "public, max-age=3600",
     },
   });
 }

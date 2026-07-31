@@ -1,7 +1,7 @@
 {
   "name": "jeddah-decor-paints",
   "type": "module",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "private": true,
   "engines": {
     "node": ">=22.12.0"
@@ -12,7 +12,11 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "cms": "decap-server"
+    "cms": "decap-server",
+    "seo:redirects": "node scripts/generate-redirects.mjs",
+    "prebuild": "npm run seo:redirects",
+    "seo:check": "node scripts/seo-preflight.mjs",
+    "seo:admin:upgrade": "node scripts/apply-seo-admin-v1.2.mjs"
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.19",

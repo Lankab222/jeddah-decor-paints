@@ -1,5 +1,6 @@
 ---
 import "../styles/global.css";
+import "../styles/seo-admin.css";
 
 interface Props {
   title?: string;
@@ -29,11 +30,3 @@ const {
     <slot />
   </body>
 </html>
-
-<style is:global>
-  .seo-admin-body {
-    min-height: 100vh;
-    padding-bottom: 0;
-    background: #f4f5f7;
-  }
-</style>

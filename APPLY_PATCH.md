@@ -1,28 +1,39 @@
-# تطبيق تحديث لوحة السيو 1.1.0
+# تطبيق تحديث لوحة السيو 1.2.0
 
-انسخ محتويات هذا المجلد إلى جذر مشروع `jeddah-decor-paints` مع السماح باستبدال الملفات المطابقة.
+1. أغلق خادم Astro إن كان يعمل.
+2. انسخ محتويات ملف التحديث إلى جذر المشروع ووافق على الاستبدال.
+3. لا تستبدل `public/admin/config.yml` يدويًا؛ حزمة التحديث لا تحتويه.
+4. نفّذ:
 
-هذا التحديث **لا يتضمن** `public/admin/config.yml` حتى لا يستبدل رابط Cloudflare Worker OAuth الموجود لديك.
-
-بعد النسخ نفّذ:
-
-```bash
-npm install
+```powershell
+npm run seo:admin:upgrade
+npm run seo:redirects
+npm run seo:check
 npm run build
 ```
 
-ثم:
+5. شغّل محليًا:
 
-```bash
+```powershell
+npm run dev
+```
+
+ثم افتح:
+
+```text
+http://localhost:4321/seo-admin/
+```
+
+6. ارفع إلى GitHub:
+
+```powershell
 git add .
-git commit -m "Add SEO admin dashboard"
+git commit -m "Upgrade SEO admin dashboard to v1.2.0"
 git push origin main
 ```
 
-بعد اكتمال نشر Cloudflare افتح:
+7. بعد نشر Cloudflare افتح:
 
 ```text
 https://jeddahdecore.site/seo-admin/
 ```
-
-ثم احمِ المسار عبر Cloudflare Access قبل الاعتماد عليه كلوحة إدارية.

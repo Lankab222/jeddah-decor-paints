@@ -21,6 +21,9 @@ if (!settingsEntry) throw new Error("ملف إعدادات الموقع غير �
 const settings = settingsEntry.data;
 const baseUrl = Astro.site?.toString() ?? settings.siteUrl;
 const serviceUrl = new URL(`/services/${service.id}/`, baseUrl).toString();
+const canonicalUrl = service.data.canonical
+  ? new URL(service.data.canonical, baseUrl).toString()
+  : serviceUrl;
 const serviceImage = new URL(service.data.image || settings.defaultImage, baseUrl).toString();
 const pageTitle = service.data.seoTitle || service.data.title;
 const pageDescription = service.data.seoDescription || service.data.description;
@@ -29,9 +32,9 @@ const relatedServices = (await getCollection("services", ({ data }) => !data.dra
   .sort((a, b) => a.data.order - b.data.order)
   .slice(0, 3);
 ---
-<BaseLayout title={pageTitle} description={pageDescription} image={service.data.image || settings.defaultImage} imageAlt={service.data.imageAlt || service.data.title}>
+<BaseLayout title={pageTitle} description={pageDescription} canonical={canonicalUrl} noindex={service.data.noindex} image={service.data.ogImage || service.data.image || settings.defaultImage} imageAlt={service.data.imageAlt || service.data.title}>
   <Fragment slot="head">
-    <ServiceSchema name={service.data.title} description={pageDescription} url={serviceUrl} image={serviceImage} providerName={settings.siteName} providerUrl={baseUrl} areaServed={service.data.serviceArea.length ? service.data.serviceArea : settings.serviceAreas} />
+    <ServiceSchema name={service.data.title} description={pageDescription} url={canonicalUrl} image={serviceImage} providerName={settings.siteName} providerUrl={baseUrl} areaServed={service.data.serviceArea.length ? service.data.serviceArea : settings.serviceAreas} />
     <BreadcrumbSchema items={[{ name: "الرئيسية", url: new URL("/", baseUrl).toString() }, { name: "الخدمات", url: new URL("/services/", baseUrl).toString() }, { name: service.data.title, url: serviceUrl }]} />
     <FaqSchema items={service.data.faq} />
   </Fragment>

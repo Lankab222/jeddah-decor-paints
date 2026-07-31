@@ -1,6 +1,6 @@
 ---
 import type { GetStaticPaths } from "astro";
-import { getCollection } from "astro:content";
+import { getCollection, getEntry } from "astro:content";
 import BaseLayout from "../../../layouts/BaseLayout.astro";
 import PageHero from "../../../components/common/PageHero.astro";
 
@@ -12,8 +12,12 @@ export const getStaticPaths = (async () => {
 
 const { category, posts } = Astro.props;
 const sortedPosts = [...posts].sort((a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime());
+const seoSettingsEntry = await getEntry("seoSettings", "settings");
+if (!seoSettingsEntry) throw new Error("ملف إعدادات السيو غير موجود");
+const seoSettings = seoSettingsEntry.data;
 ---
-<BaseLayout title={`تصنيف ${category}`} description={`مقالات ونصائح ضمن تصنيف ${category} من ديكورات ودهانات جدة.`} pageType="CollectionPage">
+<BaseLayout title={`تصنيف ${category}`} noindex={seoSettings.noindexCategoryPages}
+  description={`مقالات ونصائح ضمن تصنيف ${category} من ديكورات ودهانات جدة.`} pageType="CollectionPage">
   <main id="main-content"><PageHero eyebrow="تصنيف المقالات" title={category} description={`جميع المقالات المنشورة ضمن تصنيف ${category}.`} /><section class="section"><div class="container">{sortedPosts.length > 0 ? <div class="posts-grid">{sortedPosts.map((post) => <article>{post.data.image && <a class="media" href={`/blog/${post.id}/`}><img src={post.data.image} alt={post.data.imageAlt || post.data.title} width="800" height="500" loading="lazy" decoding="async" /></a>}<div><span>{post.data.category}</span><h2><a href={`/blog/${post.id}/`}>{post.data.title}</a></h2><p>{post.data.description}</p><a class="more" href={`/blog/${post.id}/`}>قراءة المقال ←</a></div></article>)}</div> : <p class="empty-state">لا توجد مقالات في هذا التصنيف.</p>}</div></section></main>
 </BaseLayout>
 <style>

@@ -23,14 +23,17 @@ interface Props {
 }
 
 const settingsEntry = await getEntry("settings", "site");
+const seoSettingsEntry = await getEntry("seoSettings", "settings");
 if (!settingsEntry) throw new Error("ملف إعدادات الموقع غير موجود");
+if (!seoSettingsEntry) throw new Error("ملف إعدادات السيو غير موجود");
 const settings = settingsEntry.data;
+const seoSettings = seoSettingsEntry.data;
 
 const {
   title = settings.siteTitle,
-  description = settings.description,
+  description = seoSettings.defaultDescription || settings.description,
   canonical,
-  image = settings.defaultImage,
+  image = seoSettings.defaultImage || settings.defaultImage,
   imageAlt,
   type = "website",
   noindex = false,
@@ -44,7 +47,9 @@ const {
 const fullTitle =
   title === settings.siteTitle || title.includes(settings.siteName)
     ? title
-    : `${title} | ${settings.siteName}`;
+    : seoSettings.titleTemplate.includes("%s")
+      ? seoSettings.titleTemplate.replace("%s", title)
+      : `${title} | ${settings.siteName}`;
 const productionUrl = Astro.site?.toString() ?? settings.siteUrl;
 const socialUrls = [settings.facebook, settings.instagram, settings.x, settings.youtube].filter(
   (value): value is string => Boolean(value),
@@ -58,6 +63,12 @@ const socialUrls = [settings.facebook, settings.instagram, settings.x, settings.
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content={settings.primaryColor} />
     <meta name="format-detection" content="telephone=yes" />
+    {seoSettings.googleSiteVerification && (
+      <meta name="google-site-verification" content={seoSettings.googleSiteVerification} />
+    )}
+    {seoSettings.bingSiteVerification && (
+      <meta name="msvalidate.01" content={seoSettings.bingSiteVerification} />
+    )}
 
     <SEO
       title={fullTitle}

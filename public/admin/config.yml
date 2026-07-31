@@ -548,3 +548,56 @@ collections:
               required: false,
             }
           - { label: "نص الحقوق", name: "footerText", widget: "string" }
+
+  - name: "seo_settings"
+    label: "إعدادات السيو"
+    files:
+      - label: "إعدادات السيو والفهرسة"
+        name: "settings"
+        file: "src/content/seo-settings/settings.json"
+        fields:
+          - { label: "قالب العنوان", name: "titleTemplate", widget: "string", hint: "استخدم %s مكان عنوان الصفحة." }
+          - { label: "الوصف الافتراضي", name: "defaultDescription", widget: "text" }
+          - { label: "الصورة الافتراضية", name: "defaultImage", widget: "image" }
+          - { label: "خاصية Search Console", name: "searchConsoleProperty", widget: "string" }
+          - { label: "رمز تحقق Google", name: "googleSiteVerification", widget: "string", required: false }
+          - { label: "رمز تحقق Bing", name: "bingSiteVerification", widget: "string", required: false }
+          - { label: "رابط ملف Google Business", name: "googleBusinessProfileUrl", widget: "string", required: false }
+          - { label: "noindex لصفحات الوسوم", name: "noindexTagPages", widget: "boolean", default: false }
+          - { label: "noindex لصفحات التصنيفات", name: "noindexCategoryPages", widget: "boolean", default: false }
+          - label: "إعدادات robots.txt"
+            name: "robots"
+            widget: "object"
+            fields:
+              - { label: "السماح العام بالزحف", name: "allowAll", widget: "boolean", default: true }
+              - { label: "المسارات المحظورة", name: "disallow", widget: "list", default: ["/admin/", "/seo-admin/", "/seo-api/"] }
+          - label: "حدود فحص المحتوى"
+            name: "audit"
+            widget: "object"
+            fields:
+              - { label: "أقل طول للعنوان", name: "minimumTitleLength", widget: "number", default: 30 }
+              - { label: "أقصى طول للعنوان", name: "maximumTitleLength", widget: "number", default: 65 }
+              - { label: "أقل طول للوصف", name: "minimumDescriptionLength", widget: "number", default: 80 }
+              - { label: "أقصى طول للوصف", name: "maximumDescriptionLength", widget: "number", default: 165 }
+              - { label: "أقل عدد أحرف للمحتوى", name: "minimumContentCharacters", widget: "number", default: 700 }
+              - { label: "درجة الحاجة للمراجعة", name: "reviewScore", widget: "number", default: 80 }
+              - { label: "هدف الأداء", name: "targetPerformanceScore", widget: "number", default: 90 }
+
+  - name: "redirect_settings"
+    label: "التحويلات 301 و302"
+    files:
+      - label: "قواعد التحويل"
+        name: "settings"
+        file: "src/content/redirects/settings.json"
+        fields:
+          - label: "التحويلات"
+            name: "redirects"
+            widget: "list"
+            required: false
+            default: []
+            fields:
+              - { label: "الرابط القديم", name: "from", widget: "string" }
+              - { label: "الرابط الجديد", name: "to", widget: "string" }
+              - { label: "نوع التحويل", name: "status", widget: "select", options: ["301", "302"], default: "301" }
+              - { label: "مفعل", name: "enabled", widget: "boolean", default: true }
+              - { label: "ملاحظة", name: "note", widget: "string", required: false }

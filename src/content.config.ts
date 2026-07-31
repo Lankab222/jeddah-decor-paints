@@ -16,6 +16,11 @@ const blog = defineCollection({
     description: z.string(),
     seoTitle: z.string().optional(),
     seoDescription: z.string().optional(),
+    focusKeyword: z.string().optional(),
+    canonical: z.string().optional(),
+    noindex: z.boolean().default(false),
+    ogImage: z.string().optional(),
+    indexingPriority: z.enum(["عالية", "عادية", "منخفضة"]).default("عادية"),
     publishDate: z.coerce.date(),
     updatedDate: z.coerce.date().optional(),
     image: z.string().optional(),
@@ -51,6 +56,11 @@ const services = defineCollection({
     faq: z.array(faqItem).default([]),
     seoTitle: z.string().optional(),
     seoDescription: z.string().optional(),
+    focusKeyword: z.string().optional(),
+    canonical: z.string().optional(),
+    noindex: z.boolean().default(false),
+    ogImage: z.string().optional(),
+    indexingPriority: z.enum(["عالية", "عادية", "منخفضة"]).default("عادية"),
     updatedDate: z.coerce.date().optional(),
   }),
 });
@@ -82,6 +92,11 @@ const projects = defineCollection({
     order: z.coerce.number().default(0),
     seoTitle: z.string().optional(),
     seoDescription: z.string().optional(),
+    focusKeyword: z.string().optional(),
+    canonical: z.string().optional(),
+    noindex: z.boolean().default(false),
+    ogImage: z.string().optional(),
+    indexingPriority: z.enum(["عالية", "عادية", "منخفضة"]).default("عادية"),
   }),
 });
 
@@ -139,6 +154,54 @@ const settings = defineCollection({
   }),
 });
 
+
+const seoSettings = defineCollection({
+  loader: glob({
+    pattern: "**/*.json",
+    base: "./src/content/seo-settings",
+  }),
+  schema: z.object({
+    titleTemplate: z.string().default("%s | ديكورات ودهانات جدة"),
+    defaultDescription: z.string(),
+    defaultImage: z.string().default("/uploads/og-default.jpg"),
+    searchConsoleProperty: z.string().default("sc-domain:jeddahdecore.site"),
+    googleSiteVerification: z.string().optional(),
+    bingSiteVerification: z.string().optional(),
+    googleBusinessProfileUrl: z.string().optional(),
+    noindexTagPages: z.boolean().default(false),
+    noindexCategoryPages: z.boolean().default(false),
+    robots: z.object({
+      allowAll: z.boolean().default(true),
+      disallow: z.array(z.string()).default(["/admin/", "/seo-admin/", "/seo-api/"]),
+    }),
+    audit: z.object({
+      minimumTitleLength: z.coerce.number().default(30),
+      maximumTitleLength: z.coerce.number().default(65),
+      minimumDescriptionLength: z.coerce.number().default(80),
+      maximumDescriptionLength: z.coerce.number().default(165),
+      minimumContentCharacters: z.coerce.number().default(700),
+      reviewScore: z.coerce.number().default(80),
+      targetPerformanceScore: z.coerce.number().default(90),
+    }),
+  }),
+});
+
+const redirects = defineCollection({
+  loader: glob({
+    pattern: "**/*.json",
+    base: "./src/content/redirects",
+  }),
+  schema: z.object({
+    redirects: z.array(z.object({
+      from: z.string(),
+      to: z.string(),
+      status: z.enum(["301", "302"]).default("301"),
+      enabled: z.boolean().default(true),
+      note: z.string().optional(),
+    })).default([]),
+  }),
+});
+
 const faq = defineCollection({
   loader: glob({
     pattern: "**/*.{md,mdx}",
@@ -177,4 +240,6 @@ export const collections = {
   settings,
   faq,
   testimonials,
+  seoSettings,
+  redirects,
 };
