@@ -8,6 +8,7 @@ export function GET(context: APIContext) {
     "User-agent: *",
     "Allow: /",
     "Disallow: /admin/",
+    "Disallow: /seo-admin/",
     "",
     `Sitemap: ${site}/sitemap-index.xml`,
     "",

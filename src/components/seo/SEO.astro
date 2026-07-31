@@ -41,9 +41,7 @@ const robotsContent = noindex
   : "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1";
 const formatDate = (date?: Date | string) => {
   if (!date) return undefined;
-  return date instanceof Date
-    ? date.toISOString()
-    : new Date(date).toISOString();
+  return date instanceof Date ? date.toISOString() : new Date(date).toISOString();
 };
 const published = formatDate(publishedTime);
 const modified = formatDate(modifiedTime);
@@ -73,23 +71,7 @@ const modified = formatDate(modifiedTime);
 <meta name="twitter:image" content={imageUrl.toString()} />
 <meta name="twitter:image:alt" content={imageAlt} />
 
-{
-  type === "article" && published && (
-    <meta property="article:published_time" content={published} />
-  )
-}
-{
-  type === "article" && modified && (
-    <meta property="article:modified_time" content={modified} />
-  )
-}
-{
-  type === "article" && author && (
-    <meta property="article:author" content={author} />
-  )
-}
-{
-  type === "article" && section && (
-    <meta property="article:section" content={section} />
-  )
-}
+{type === "article" && published && <meta property="article:published_time" content={published} />}
+{type === "article" && modified && <meta property="article:modified_time" content={modified} />}
+{type === "article" && author && <meta property="article:author" content={author} />}
+{type === "article" && section && <meta property="article:section" content={section} />}

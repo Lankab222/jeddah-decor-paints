@@ -6,9 +6,7 @@
   "city": "جدة",
   "region": "مكة المكرمة",
   "country": "SA",
-  "serviceAreas": [
-    "جدة"
-  ],
+  "serviceAreas": ["جدة"],
   "services": [
     "دهانات داخلية",
     "دهانات خارجية",

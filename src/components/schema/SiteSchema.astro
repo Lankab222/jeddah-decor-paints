@@ -63,15 +63,9 @@ const {
   collectionItems = [],
 } = Astro.props;
 
-const baseUrl = (
-  siteUrl ??
-  Astro.site?.toString() ??
-  "https://jeddahdecore.site"
-).replace(/\/+$/, "");
+const baseUrl = (siteUrl ?? Astro.site?.toString() ?? "https://jeddahdecore.site").replace(/\/+$/, "");
 const absolute = (value: string) => new URL(value, `${baseUrl}/`).toString();
-const pageUrl = canonicalUrl
-  ? absolute(canonicalUrl)
-  : absolute(Astro.url.pathname);
+const pageUrl = canonicalUrl ? absolute(canonicalUrl) : absolute(Astro.url.pathname);
 const homeUrl = `${baseUrl}/`;
 const organizationId = `${homeUrl}#organization`;
 const websiteId = `${homeUrl}#website`;
@@ -107,9 +101,7 @@ const graph: Record<string, unknown>[] = [
       })),
     }),
     ...(services.length > 0 && { knowsAbout: services }),
-    ...(sameAs.filter(Boolean).length > 0 && {
-      sameAs: sameAs.filter(Boolean),
-    }),
+    ...(sameAs.filter(Boolean).length > 0 && { sameAs: sameAs.filter(Boolean) }),
     ...(phone && {
       contactPoint: {
         "@type": "ContactPoint",
