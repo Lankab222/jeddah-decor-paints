@@ -1,7 +1,71 @@
-html, body { direction: ltr; }
-input, textarea, [contenteditable="true"] { direction: rtl; text-align: right; font-family: "Segoe UI", Tahoma, Arial, sans-serif; }
-label, p, h1, h2, h3, h4, h5, h6 { font-family: "Segoe UI", Tahoma, Arial, sans-serif; }
-[data-slate-editor="true"], [class*="PreviewPane"], [class*="preview"] { direction: rtl; text-align: right; }
+@font-face {
+  font-family: "Cairo";
+  src: url("/fonts/Cairo-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --admin-accent: #9b7432;
+  --admin-surface: #ffffff;
+  --admin-page: #f4f5f8;
+  --admin-border: #e2e5ea;
+  --admin-text: #202833;
+}
+
+html,
+body {
+  direction: ltr;
+  min-width: 0;
+  max-width: 100%;
+  margin: 0;
+  overflow-x: hidden;
+  background: var(--admin-page);
+  font-family: "Cairo", "Segoe UI", Tahoma, Arial, sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+input,
+textarea,
+select,
+[contenteditable="true"],
+[data-slate-editor="true"] {
+  direction: rtl;
+  max-width: 100%;
+  text-align: right;
+  font-family: "Cairo", "Segoe UI", Tahoma, Arial, sans-serif;
+}
+
+label,
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Cairo", "Segoe UI", Tahoma, Arial, sans-serif;
+}
+
+[data-slate-editor="true"],
+[class*="PreviewPane"],
+[class*="preview"] {
+  direction: rtl;
+  text-align: right;
+}
 
 .seo-admin-shortcut {
   position: fixed;
@@ -11,11 +75,12 @@ label, p, h1, h2, h3, h4, h5, h6 { font-family: "Segoe UI", Tahoma, Arial, sans-
   display: inline-flex;
   min-height: 40px;
   align-items: center;
+  justify-content: center;
   padding-inline: 14px;
   border-radius: 10px;
-  background: #8a6a32;
+  background: var(--admin-accent);
   color: #fff;
-  font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+  font-family: "Cairo", "Segoe UI", Tahoma, Arial, sans-serif;
   font-size: 14px;
   font-weight: 800;
   text-decoration: none;
@@ -25,4 +90,211 @@ label, p, h1, h2, h3, h4, h5, h6 { font-family: "Segoe UI", Tahoma, Arial, sans-
 .seo-admin-shortcut:focus-visible {
   outline: 3px solid #fff;
   outline-offset: 3px;
+}
+
+/* Prevent the Decap application shell from exceeding the viewport. */
+#nc-root,
+#nc-root > div,
+[class*="AppMainContainer"],
+[class*="EditorContainer"],
+[class*="ControlPane"],
+[class*="EditorControl"] {
+  min-width: 0 !important;
+  max-width: 100% !important;
+}
+
+@media (max-width: 767px) {
+  html,
+  body,
+  #nc-root,
+  #nc-root > div {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+  }
+
+  body {
+    overflow-x: clip;
+  }
+
+  /* Main Decap area */
+  [class*="AppMainContainer"] {
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* Convert the desktop two-column editor to one mobile column. */
+  [class*="EditorContainer"] {
+    display: block !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  [class*="ControlPane"],
+  [class*="EditorControl"] {
+    display: block !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 12px !important;
+    overflow: visible !important;
+  }
+
+  /* The live preview consumes half the editor on narrow screens. */
+  [class*="PreviewPane"],
+  [class*="EditorPreviewPane"],
+  [class*="PreviewPaneContainer"] {
+    display: none !important;
+  }
+
+  /* Keep editor actions visible and tappable. */
+  [class*="EditorToolbar"] {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 1000 !important;
+    display: flex !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    flex-wrap: wrap !important;
+    align-items: center !important;
+    gap: 8px !important;
+    margin: 0 !important;
+    padding: 10px 12px !important;
+    border-bottom: 1px solid var(--admin-border) !important;
+    background: rgb(255 255 255 / 96%) !important;
+    box-shadow: 0 5px 18px rgb(15 23 42 / 8%) !important;
+    backdrop-filter: blur(8px);
+  }
+
+  [class*="EditorToolbar"] button,
+  [class*="EditorToolbar"] a,
+  [class*="ToolbarButton"] {
+    min-height: 44px !important;
+    max-width: 100% !important;
+    padding: 8px 12px !important;
+    white-space: normal !important;
+    font-size: 14px !important;
+  }
+
+  /* Form fields */
+  form,
+  fieldset,
+  [class*="Field"],
+  [class*="Widget"] {
+    min-width: 0 !important;
+    max-width: 100% !important;
+  }
+
+  input,
+  textarea,
+  select,
+  [contenteditable="true"] {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    border-radius: 10px !important;
+    font-size: 16px !important;
+    line-height: 1.75 !important;
+  }
+
+  input,
+  select {
+    min-height: 46px !important;
+  }
+
+  textarea {
+    min-height: 120px !important;
+    resize: vertical !important;
+  }
+
+  label {
+    display: block !important;
+    max-width: 100% !important;
+    margin-bottom: 6px !important;
+    direction: rtl;
+    text-align: right;
+    line-height: 1.6 !important;
+  }
+
+  /* Markdown/Rich text controls remain usable without widening the page. */
+  [class*="ControlPane"] [class*="Toolbar"] {
+    max-width: 100% !important;
+    overflow-x: auto !important;
+    overscroll-behavior-inline: contain;
+    scrollbar-width: thin;
+  }
+
+  [class*="ControlPane"] [class*="Toolbar"] > * {
+    flex: 0 0 auto !important;
+  }
+
+  /* Collection lists and card grids */
+  [class*="CollectionTop"],
+  [class*="CollectionControls"],
+  [class*="SearchContainer"] {
+    width: 100% !important;
+    max-width: 100% !important;
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+    padding-inline: 12px !important;
+  }
+
+  [class*="CardGrid"],
+  [class*="EntriesGrid"] {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    gap: 12px !important;
+    padding-inline: 12px !important;
+  }
+
+  [class*="Table"],
+  [class*="ListContainer"] {
+    max-width: 100% !important;
+    overflow-x: auto !important;
+  }
+
+  /* Do not let long filenames, URLs or helper text expand the viewport. */
+  a,
+  p,
+  span,
+  code,
+  small {
+    overflow-wrap: anywhere;
+  }
+
+  .seo-admin-shortcut {
+    top: auto;
+    bottom: max(12px, env(safe-area-inset-bottom));
+    left: 12px;
+    min-height: 42px;
+    padding-inline: 12px;
+    border: 1px solid rgb(255 255 255 / 45%);
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 380px) {
+  [class*="ControlPane"],
+  [class*="EditorControl"] {
+    padding-inline: 8px !important;
+  }
+
+  [class*="EditorToolbar"] {
+    padding-inline: 8px !important;
+  }
+
+  [class*="EditorToolbar"] button,
+  [class*="EditorToolbar"] a,
+  [class*="ToolbarButton"] {
+    flex: 1 1 auto !important;
+  }
 }
