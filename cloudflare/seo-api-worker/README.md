@@ -11,7 +11,7 @@
 - `/pagespeed?url=...&strategy=mobile`
 
 ## الإعداد
-
+Search Console API
 1. أنشئ Service Account في Google Cloud وفعّل Search Console API وURL Inspection API.
 2. أضف بريد Service Account مستخدمًا إلى خاصية Search Console `sc-domain:jeddahdecore.site`.
 3. انشر Worker وأضف المتغيرات:
